@@ -7,7 +7,7 @@ class Docker {
     const { version } = baseImage;
 
     const tag = ImageTag.createForAction(version);
-    const command = `docker build ${path} \
+    const command = `docker buildx build ${path} \
       --file ${dockerfile} \
       --build-arg IMAGE=${baseImage} \
       --tag ${tag} \
