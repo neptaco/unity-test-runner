@@ -9,7 +9,7 @@ class Docker {
 
     const iidFile = "./iidfile";
     const tag = ImageTag.createForAction(version);
-    var command = `docker buildx build ${path} \
+    var command = `docker build ${path} \
       --file ${dockerfile} \
       --build-arg IMAGE=${baseImage} \
       --tag ${tag} \
