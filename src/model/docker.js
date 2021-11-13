@@ -20,8 +20,15 @@ class Docker {
       --iidfile ${iidFile}`;
 
     if (buildX) {
-      command += ` --cache-from type=gha`;
-      command += ` --cache-to type=gha,mode=max`;
+      const cacheType = "inline";
+      if (cacheType === "inline") {
+        command += ` --cache-from type=registry,ref=${baseImage}`;
+        command += ` --cache-to inline`;
+      }
+      if (cacheType === "gha") {
+        command += ` --cache-from type=gha`;
+        command += ` --cache-to type=gha,mode=max`;
+      }
     }
 
     await exec(command, undefined, { silent });
