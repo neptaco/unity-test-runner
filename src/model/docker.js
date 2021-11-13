@@ -23,7 +23,7 @@ class Docker {
       const cacheType = "inline";
       if (cacheType === "inline") {
         command += ` --cache-from type=registry,ref=${baseImage}`;
-        command += ` --cache-to inline`;
+        command += ` --cache-to type=inline`;
       }
       if (cacheType === "gha") {
         command += ` --cache-from type=gha`;
