@@ -19,6 +19,8 @@ class Docker {
 
       await exec(command, undefined, { silent });
 
+      await exec(`cat ${iidFile}`, undefined, { silent });
+
       if (!fs.existsSync(iidFile)) {
         return undefined;
       }
