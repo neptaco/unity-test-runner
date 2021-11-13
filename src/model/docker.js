@@ -7,10 +7,12 @@ class Docker {
     const { version } = baseImage;
 
     const tag = ImageTag.createForAction(version);
-    const command = `docker build ${path} \
+    const command = `DOCKER_BUILDKIT=1 docker build ${path} \
       --file ${dockerfile} \
       --build-arg IMAGE=${baseImage} \
-      --tag ${tag}`;
+      --tag ${tag} \
+      --cache-from type=local,src=/tmp/.buildx-cache \
+      --cache-to type=local,dest=/tmp/.buildx-cache`;
 
     await exec(command, undefined, { silent });
 
