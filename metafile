@@ -1,1 +1,6 @@
-null
+{
+  "cache.manifest": "{\"mediaType\":\"application/vnd.oci.image.index.v1+json\",\"digest\":\"sha256:1f952983a3353d8ce845edaa1bd4a175b69303805b77d5ac123e8acede83cf24\",\"size\":4517}",
+  "containerimage.config.digest": "sha256:2481ce557425c6a8af7668ed6bdbb601d02ab1df2bf7a4a783b6b0d7988a79e9",
+  "containerimage.digest": "sha256:fb0f9b951aeed00616636bf6777634e7bd9c4ba54dd01c6354bcd7533f69c436",
+  "image.name": "docker.io/library/unity-action:2020.3.20f1-base-0"
+}

@@ -33,6 +33,7 @@ class Docker {
         command += ` --cache-from type=local,src=/tmp/.buildx-cache`;
         command += ` --cache-to type=local,dest=/tmp/.buildx-cache-new`;
       }
+      command += " -o image";
     }
 
     await exec(command, undefined, { silent });
