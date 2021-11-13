@@ -9,13 +9,17 @@ class Docker {
 
     const iidFile = "./iidfile";
     const tag = ImageTag.createForAction(version);
-    const command = `docker buildx build ${path} \
+    var command = `docker buildx build ${path} \
       --file ${dockerfile} \
       --build-arg IMAGE=${baseImage} \
       --tag ${tag} \
-      --iidfile ${iidFile} \
-      --cache-from type=gha \
-      --cache-to type=gha,mode=max`;
+      --iidfile ${iidFile}`;
+
+    const useBuildX = false;
+    if (useBuildX) {
+      command += `--cache-from type=gha \
+            --cache-to type=gha,mode=max`;
+    }
 
     await exec(command, undefined, { silent });
 
