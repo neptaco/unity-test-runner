@@ -27,7 +27,7 @@ class Docker {
     await exec(command, undefined, { silent });
 
     await exec(`ls -la .`, undefined, { silent });
-    await exec(`cata ${metaFile}`, undefined, { silent });
+    await exec(`cat ${metaFile}`, undefined, { silent });
     await exec(`docker images`, undefined, { silent });
 
     if (!fs.existsSync(iidFile)) {
