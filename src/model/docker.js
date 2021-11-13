@@ -33,7 +33,7 @@ class Docker {
       gitPrivateToken,
     } = parameters;
 
-    const command = `docker run \
+    const command = `docker buildx run \
         --workdir /github/workspace \
         --rm \
         --env UNITY_LICENSE \
