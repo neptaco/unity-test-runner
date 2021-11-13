@@ -20,7 +20,7 @@ class Docker {
       --iidfile ${iidFile}`;
 
     if (buildX) {
-      const cacheType = "inline";
+      const cacheType = "gha";
       if (cacheType === "inline") {
         command += ` --cache-from type=registry,ref=${baseImage}`;
         command += ` --cache-to type=inline`;
@@ -28,6 +28,10 @@ class Docker {
       if (cacheType === "gha") {
         command += ` --cache-from type=gha`;
         command += ` --cache-to type=gha,mode=max`;
+      }
+      if (cacheType === "local") {
+        command += ` --cache-from type=local,src=/tmp/.buildx-cache`;
+        command += ` --cache-to type=local,dest=/tmp/.buildx-cache-new`;
       }
     }
 
