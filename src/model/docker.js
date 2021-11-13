@@ -7,25 +7,28 @@ class Docker {
     const { path, dockerfile, baseImage } = buildParameters;
     const { version } = baseImage;
 
+    const buildX = "buildx";
+    //const buildX = undefined;
     const iidFile = "./iidfile";
+    const metaFile = "./metafile";
     const tag = ImageTag.createForAction(version);
-    var command = `docker build ${path} \
+    var command = `docker ${buildX} build ${path} \
       --file ${dockerfile} \
       --build-arg IMAGE=${baseImage} \
       --tag ${tag} \
+      --metadata-file ${metaFile} \
       --iidfile ${iidFile}`;
 
-    const useBuildX = false;
-    if (useBuildX) {
-      command += `--cache-from type=gha \
-            --cache-to type=gha,mode=max`;
+    if (buildX) {
+      command += ` --cache-from type=gha`;
+      command += ` --cache-to type=gha,mode=max`;
     }
 
     await exec(command, undefined, { silent });
 
     await exec(`ls -la .`, undefined, { silent });
+    await exec(`cata ${metaFile}`, undefined, { silent });
     await exec(`docker images`, undefined, { silent });
-    await exec(`cat ${iidFile}`, undefined, { silent });
 
     if (!fs.existsSync(iidFile)) {
       return undefined;
