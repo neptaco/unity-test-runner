@@ -17,7 +17,7 @@ class Docker {
       --build-arg IMAGE=${baseImage} \
       --tag ${tag} \
       --metadata-file ${metaFile} \
-      --iidfile ${iidFile} --load`;
+      --iidfile ${iidFile}`;
 
     if (buildX) {
       const cacheType = "gha";
