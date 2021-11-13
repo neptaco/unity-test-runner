@@ -14,11 +14,9 @@ class Docker {
       --cache-from type=gha \
       --cache-to type=gha,mode=max`;
 
-      await exec("docker buildx version", undefined, { silent });
-
       await exec(command, undefined, { silent });
 
-      await exec("docker buildx ls", undefined, { silent });
+      await exec("docker images", undefined, { silent });
 
       return tag;
   }
