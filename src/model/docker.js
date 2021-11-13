@@ -9,15 +9,11 @@ class Docker {
 
     const buildX = "buildx";
     //const buildX = undefined;
-    const iidFile = "./iidfile";
-    const metaFile = "./metafile";
     const tag = ImageTag.createForAction(version);
     var command = `docker ${buildX} build ${path} \
       --file ${dockerfile} \
       --build-arg IMAGE=${baseImage} \
-      --tag ${tag} \
-      --metadata-file ${metaFile} \
-      --iidfile ${iidFile}`;
+      --tag ${tag}`;
 
     if (buildX) {
       const cacheType = "gha";
@@ -38,14 +34,9 @@ class Docker {
 
     await exec(command, undefined, { silent });
 
-    await exec(`ls -la .`, undefined, { silent });
-    await exec(`cat ${metaFile}`, undefined, { silent });
     await exec(`docker images`, undefined, { silent });
 
-    if (!fs.existsSync(iidFile)) {
-      return undefined;
-    }
-    return fs.readFileSync(iidFile, {encoding: 'utf-8'}).trim();
+    return tag;
   }
 
   static async run(image, parameters, silent = false) {
