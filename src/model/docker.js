@@ -11,12 +11,16 @@ class Docker {
       --file ${dockerfile} \
       --build-arg IMAGE=${baseImage} \
       --tag ${tag} \
-      --cache-from type=local,src=/tmp/.buildx-cache \
-      --cache-to type=local,dest=/tmp/.buildx-cache-new`;
+      --cache-from type=gha \
+      --cache-to type=gha,mode=max`;
 
-    await exec(command, undefined, { silent });
+      await exec("docker buildx version", undefined, { silent });
 
-    return tag;
+      await exec(command, undefined, { silent });
+
+      await exec("docker buildx ls", undefined, { silent });
+
+      return tag;
   }
 
   static async run(image, parameters, silent = false) {
@@ -33,7 +37,7 @@ class Docker {
       gitPrivateToken,
     } = parameters;
 
-    const command = `docker buildx run \
+    const command = `docker run \
         --workdir /github/workspace \
         --rm \
         --env UNITY_LICENSE \
