@@ -6,19 +6,22 @@ class Docker {
     const { path, dockerfile, baseImage } = buildParameters;
     const { version } = baseImage;
 
+    const iidFile = "/tmp/iidfile";
     const tag = ImageTag.createForAction(version);
     const command = `docker buildx build ${path} \
       --file ${dockerfile} \
       --build-arg IMAGE=${baseImage} \
       --tag ${tag} \
+      --iidfile ${iidFile} \
       --cache-from type=gha \
       --cache-to type=gha,mode=max`;
 
       await exec(command, undefined, { silent });
 
-      await exec("docker images", undefined, { silent });
-
-      return tag;
+      if (!fs.existsSync(iidFile)) {
+        return undefined;
+      }
+      return fs.readFileSync(iidFile, {encoding: 'utf-8'}).trim();
   }
 
   static async run(image, parameters, silent = false) {
