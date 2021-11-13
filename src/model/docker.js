@@ -1,5 +1,6 @@
 import { exec } from '@actions/exec';
 import ImageTag from './image-tag';
+import fs from 'fs';
 
 class Docker {
   static async build(buildParameters, silent = false) {
